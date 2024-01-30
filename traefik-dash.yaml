@@ -1,0 +1,15 @@
+# traefik.yaml
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard
+  namespace: kubeapps
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`wordpress.local`) && PathPrefix(`/traefik`)
+      kind: Rule
+      services:
+        - name: traefik-dashboard@internal
+          port: 8080

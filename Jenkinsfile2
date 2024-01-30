@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    tools {
+        // Utiliser le nom exact de l'installation Maven configurée dans Jenkins
+        maven 'MVN 3'
+    }
+
+    stages {
+        stage('checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], url: 'http://gitlaabb-webservice-default.default.svc.cluster.local:8181/root/pourletestdejenkins.git'])
+            }
+        }
+        stage('build') {
+            steps {
+                // Utiliser uniquement Maven pour l'étape de build
+                sh 'mvn package'
+            }
+        }
+    }
+}
